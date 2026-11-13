@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runner Editor</title>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<style>
+  body { background:#0d1117; color:#e6edf3; font-family:system-ui,sans-serif; margin:0; padding:10px; }
+  a { color:#a78bfa; }
+  #game { display:flex; justify-content:center; margin:10px 0; }
+  .row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #30363d; }
+  input[type=range] { width:55%; }
+</style>
+</head>
+<body>
+<a href="index.html">← वापस</a>
+<h3>🏃 Endless Runner</h3>
+<div id="game"></div>
+<div id="controls"></div>
+
+<script src="runner.js"></script>
+<script>
+const cfg = {
+  speed:300, gravity:1200, jump:550, spawnMs:1400,
+  bgColor:"#1e293b", groundColor:"#475569",
+  playerColor:"#a78bfa", obstacleColor:"#f87171"
+};
+const FIELDS = [
+  ["speed","स्पीड","range",150,700],
+  ["gravity","ग्रैविटी","range",600,2500],
+  ["jump","जंप पावर","range",300,900],
+  ["spawnMs","दुश्मन का गैप (ms)","range",500,3000],
+  ["bgColor","बैकग्राउंड","color"],
+  ["groundColor","ज़मीन","color"],
+  ["playerColor","प्लेयर","color"],
+  ["obstacleColor","दुश्मन","color"]
+];
+let game = null;
+function restart() {
+  if (game) game.destroy(true);
+  game = startRunner("game", cfg);
+}
+const box = document.getElementById("controls");
+FIELDS.forEach(([key, label, type, min, max]) => {
+  const r = document.createElement("div");
+  r.className = "row";
+  r.innerHTML = `<span>${label}</span>
+    <input type="${type}" ${type==="range" ? `min="${min}" max="${max}"` : ""} value="${cfg[key]}">`;
+  r.querySelector("input").onchange = e => {
+    cfg[key] = type === "range" ? Number(e.target.value) : e.target.value;
+    restart();
+  };
+  box.appendChild(r);
+});
+restart();
+</script>
+</body>
+  </html>
