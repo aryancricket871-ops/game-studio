@@ -35,7 +35,7 @@
 
 <script>
 const TEMPLATES = [
-  { id:"runner",   icon:"🏃", name:"Endless Runner", ready:false },
+  { id:"runner",   icon:"🏃", name:"Endless Runner", ready:true  },
   { id:"shooter",  icon:"🚀", name:"Space Shooter",  ready:false },
   { id:"platform", icon:"🍄", name:"Platformer",     ready:false },
   { id:"puzzle",   icon:"🧩", name:"Puzzle",         ready:false },
@@ -46,10 +46,13 @@ const box = document.getElementById("templates");
 TEMPLATES.forEach(t => {
   const d = document.createElement("div");
   d.className = "card" + (t.ready ? " ready" : "");
-  d.innerHTML = `<div class="icon">${t.icon}</div>
-    <div class="name">${t.name}</div>
-    <div class="tag">${t.ready ? "तैयार" : "जल्द आ रहा है"}</div>`;
-  d.onclick = () => { if (!t.ready) alert(t.name + " अगले स्टेप में बनेगा"); };
+  d.innerHTML = '<div class="icon">' + t.icon + '</div>' +
+    '<div class="name">' + t.name + '</div>' +
+    '<div class="tag">' + (t.ready ? "तैयार" : "जल्द आ रहा है") + '</div>';
+  d.onclick = () => {
+    if (t.id === "runner") location.href = "editor.html";
+    else alert(t.name + " जल्द आ रहा है");
+  };
   box.appendChild(d);
 });
 </script>
